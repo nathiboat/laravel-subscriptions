@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Subscriptions\PlanController;
 use App\Http\Controllers\Subscriptions\SubscriptionController;
+use App\Http\Controllers\Account\Subscriptions\SubscriptionController as ASubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +30,13 @@ Route::group(['namespace' => 'Subscriptions'], function () {
     Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
     Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('subscriptions.store');
 });
+
+Route::group(['namespace' => 'Account', 'prefix' => 'account'], function () {
+    Route::get('/', [AccountController::class, 'index'])->name('account');
+
+    Route::group(['namespace' => 'Subscriptions', 'prefix' => 'subscriptions'], function () {
+        Route::get('/', [ASubscriptionController::class, 'index'])->name('account.subscriptions');
+    });
+});
+
+
